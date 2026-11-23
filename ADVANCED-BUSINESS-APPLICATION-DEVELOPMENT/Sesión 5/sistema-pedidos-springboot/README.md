@@ -631,4 +631,62 @@ Para ejecutar toda la suite:
 
 ---
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+## PA4 - Módulo de revisión y trazabilidad de pedidos
+
+### Objetivo
+Implementar la revisión transaccional de pedidos mediante Spring JDBC, una vista de supervisión Spring MVC y servicios REST de consulta.
+
+### Arquitectura
+- Sistema de Pedidos: Spring Boot, Spring MVC, Spring Security, JDBC y MySQL. Puerto 8081.
+- Inventario Service: Jakarta EE, WildFly y SQL Server. Puerto 8082.
+- Pedidos Reportes Service: Spring Boot, Spring JDBC y MySQL. Puerto 8083.
+
+### Funcionalidades nuevas
+- Marcar un pedido como revisado.
+- Registrar su observación y fecha en pedido_revision.
+- Confirmar ambas escrituras mediante @Transactional.
+- Rechazar revisiones duplicadas y datos inválidos.
+- Mostrar una vista JSP de supervisión con CSRF.
+- Consumir los servicios REST de reportes mediante un cliente HTTP.
+- Gestionar errores por indisponibilidad del servicio remoto.
+
+### Nuevas rutas
+- GET /sistema-pedidos/supervision/pedidos
+- POST /sistema-pedidos/supervision/pedidos/{id}/revisar
+- GET /pedidos-reportes-service/api/v1/pedidos/revisiones?estado=PENDIENTE
+- GET /pedidos-reportes-service/api/v1/pedidos/revisiones?estado=REVISADO
+- GET /pedidos-reportes-service/api/v1/pedidos/estadisticas/revisiones
+
+### Base de datos
+Aplicar el script database/pa4_revision_mysql.sql sobre pedidosdb. La tabla pedido_revision almacena la trazabilidad y evita duplicaciones por pedido.
+
+### Orden de arranque
+1. Iniciar MySQL y SQL Server.
+2. Ejecutar inventario-service en el puerto 8082.
+3. Ejecutar pedidos-reportes-service en el puerto 8083.
+4. Ejecutar sistema-pedidos-springboot en el puerto 8081.
+
+### Pruebas
+Ejecutar .\mvnw.cmd test desde la carpeta de cada proyecto Spring Boot.
+
+### Configuración y seguridad
+Utilizar credenciales locales y variables de entorno para las conexiones. No publicar contraseñas, tokens ni archivos de configuración personales. La supervisión mantiene el control de acceso por roles y la protección CSRF.
+
+### Limitaciones
+La aplicación requiere las bases de datos y servicios locales correspondientes. Si el servicio de reportes está inactivo, las consultas remotas pueden no estar disponibles, pero no deben afectar la transacción local de revisión.
+
+
 **Uso académico:** curso *Desarrollo de Aplicaciones Empresariales Avanzado* · Continuidad del caso **Sistema de Pedidos** · Sesiones 7 y 9: **Spring MVC, Seguridad con Spring y Spring JDBC**.

@@ -1,0 +1,11 @@
+.indicadores { display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:16px; }
+.indicadores div {background:#f4f6f8;border-radius:9px;padding:14px;display:grid;gap:8px;}
+.indicadores span {color:#5f6368;font-size:0.85rem;}
+.indicadores strong {font-size:1.65rem;}
+.filtro-supervision {display:flex;align-items:flex-end;gap:12px;margin-bottom:18px;}
+.filtro-supervision label {min-width:230px;}
+.form-revision {display:flex;gap:8px;min-width:300px;}
+.form-revision input {min-width:220px;}
+.form-revision button {white-space:nowrap;}
+.fecha-revision {font-size:.8rem;color:#6b7280;margin-top:5px;}
+@media(max-width:850px){.indicadores{grid-template-columns:repeat(2,1fr)}.form-revision{display:grid;min-width:200px}}
